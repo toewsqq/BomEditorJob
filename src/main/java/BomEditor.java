@@ -12,12 +12,12 @@ public class BomEditor {
     public String dataString = "";
 
 
-    public static void main(String[] args) {
-
-        BomEditor bomEditor = new BomEditor();
-        bomEditor.ReadAllExcel();
-
-    }
+//    public static void main(String[] args) {
+//
+//        BomEditor bomEditor = new BomEditor();
+//        bomEditor.ReadAllExcel();
+//
+//    }
 
     public String getType(Cell cellCheck){
         if (cellCheck != null) {
@@ -31,14 +31,14 @@ public class BomEditor {
         return dataString;
     }
 
-    public String ReadAllExcel(){
+    public String ReadAllExcel(String bomName){
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter BOM name: ");
+        //System.out.print("Enter BOM name: ");
 
-        String bomName = scanner.nextLine();
+        //bomName = scanner.nextLine();
 
-        scanner.close();
+        //scanner.close();
 
 
         String data = "";
@@ -122,8 +122,10 @@ public class BomEditor {
 
             writer.close();
             System.out.println("Text file saved for Notepad: " + notepadOutputFile);
+            data = "done";
 
         }catch(Exception e){
+            data = "fail";
             System.out.println("Read failed");
             e.printStackTrace();
         }
