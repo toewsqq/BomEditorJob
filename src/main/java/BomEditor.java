@@ -121,12 +121,12 @@ public class BomEditor {
             }
 
             writer.close();
-            System.out.println("Text file saved for Notepad: " + notepadOutputFile);
-            data = "done";
+            //System.out.println("Text file saved for Notepad: " + notepadOutputFile);
+            data = bomName+ " izveide izdevusies";
 
         }catch(Exception e){
-            data = "fail";
-            System.out.println("Read failed");
+            data = bomName + " izveide neizdevas!!!";
+            //System.out.println("Read failed");
             e.printStackTrace();
         }
         return data;

@@ -33,45 +33,27 @@ public class bomEditorGui {
 
     private static void placeComponents(JPanel panel) {
 
-        /* We will discuss about layouts in the later sections
-         * of this tutorial. For now we are setting the layout
-         * to null
-         */
         panel.setLayout(null);
 
-        // Creating JLabel
+
         JLabel jobNameLabel = new JLabel("Job Name");
 
         jobNameLabel.setBounds(10,20,80,25);
         panel.add(jobNameLabel);
 
+        JLabel status = new JLabel("Status");
 
+        status.setBounds(10,120,80,25);
+        panel.add(status);
 
-        /* Creating text field where user is supposed to
-         * enter user name.
-         */
         JTextField userText = new JTextField(20);
         userText.setBounds(100,20,165,25);
         panel.add(userText);
 
         JTextField userText2 = new JTextField(20);
-        userText2.setBounds(100,100,165,25);
+        userText2.setBounds(100,120,165,25);
         panel.add(userText2);
-//
-//        // Same process for password label and text field.
-//        JLabel passwordLabel = new JLabel("Password");
-//        passwordLabel.setBounds(10,50,80,25);
-//        panel.add(passwordLabel);
 
-        /*This is similar to text field but it hides the user
-         * entered data and displays dots instead to protect
-         * the password like we normally see on login screens.
-         */
-//        JPasswordField passwordText = new JPasswordField(20);
-//        passwordText.setBounds(100,50,165,25);
-//        panel.add(passwordText);
-
-        // Creating login button
         JButton button = new JButton("Create");
         button.addActionListener(new ActionListener() {
             @Override
@@ -81,10 +63,10 @@ public class bomEditorGui {
                 //bomEditor.ReadAllExcel(bomName);
                 String message = bomEditor.ReadAllExcel(bomName);
                 userText2.setText(message);
-                //JOptionPane.showMessageDialog(null, "ReadAllExcel executed successfully.");
             }
         });
-        button.setBounds(10, 80, 80, 25);
+
+        button.setBounds(280, 20, 80, 25);
         panel.add(button);
     }
 
