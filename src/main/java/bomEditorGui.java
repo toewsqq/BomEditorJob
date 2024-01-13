@@ -8,6 +8,7 @@ public class bomEditorGui {
 
 //        BomEditor bomEditor = new BomEditor();
 //        bomEditor.ReadAllExcel();
+        System.out.println(System.getProperty("java.class.path"));
 
         JFrame frame = new JFrame("My First Swing Example");
         // Setting the width and height of frame

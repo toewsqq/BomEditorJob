@@ -1,10 +1,7 @@
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -46,11 +43,12 @@ public class BomEditor {
         try {
             Workbook workbookOut = new XSSFWorkbook(); // Create a new Workbook (XSSFWorkbook for .xlsx format)
             Sheet sheetOut = workbookOut.createSheet("Sheet1");
-            String bomForEdit = "C:\\Users\\Janis\\Desktop\\BomEditor\\New folder\\" + bomName + "-BOM.xlsx";
-            String editedBom = "C:\\Users\\Janis\\Desktop\\" + bomName + ".xlsx";
+            String bomForEdit = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + "-BOM.xlsx";
+            String editedBom = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + ".xlsx";
 
             FileInputStream fis = new FileInputStream(bomForEdit);
-            Workbook workbookIn = WorkbookFactory.create(fis);
+            //Workbook workbookIn = WorkbookFactory.create(fis);
+            Workbook workbookIn = new XSSFWorkbook(fis);
             Sheet sheetIn = workbookIn.getSheet("Sheet1");
             int rowCount = 0;
             FileOutputStream fileOutputStream = new FileOutputStream(editedBom);
@@ -110,7 +108,7 @@ public class BomEditor {
             workbookOut.close();
             workbookIn.close();
 
-            String notepadOutputFile = "C:\\Users\\Janis\\Desktop\\" + bomName + ".txt";
+            String notepadOutputFile = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + ".txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(notepadOutputFile));
 
             for (Row row : sheetOut) {
@@ -125,12 +123,22 @@ public class BomEditor {
             data = bomName+ " izveide izdevusies";
 
         }catch(Exception e){
-            data = bomName + " izveide neizdevas!!!";
+            //data = bomName + " izveide neizdevas!!!";
             //System.out.println("Read failed");
+            //data = e.printStackTrace();
             e.printStackTrace();
+            String stackTraceString = getStackTraceAsString(e);
+            data = stackTraceString;
         }
         return data;
 
+    }
+
+    public static String getStackTraceAsString(Exception e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return sw.toString();
     }
 
 
