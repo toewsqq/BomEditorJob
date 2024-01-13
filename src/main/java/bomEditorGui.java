@@ -6,11 +6,7 @@ public class bomEditorGui {
 
     public static void main(String[] args) {
 
-//        BomEditor bomEditor = new BomEditor();
-//        bomEditor.ReadAllExcel();
-        System.out.println(System.getProperty("java.class.path"));
-
-        JFrame frame = new JFrame("My First Swing Example");
+        JFrame frame = new JFrame("Bom Editor Beta version");
         // Setting the width and height of frame
         frame.setSize(450, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,7 +51,7 @@ public class bomEditorGui {
         userText2.setBounds(100,120,165,25);
         panel.add(userText2);
 
-        JButton button = new JButton("Create");
+        JButton button = new JButton("Edit");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

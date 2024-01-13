@@ -41,10 +41,16 @@ public class BomEditor {
         String data = "";
         String operation = "";
         try {
+
+            String currentWorkingDir = System.getProperty("user.dir");
+
             Workbook workbookOut = new XSSFWorkbook(); // Create a new Workbook (XSSFWorkbook for .xlsx format)
             Sheet sheetOut = workbookOut.createSheet("Sheet1");
-            String bomForEdit = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + "-BOM.xlsx";
-            String editedBom = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + ".xlsx";
+
+            String bomForEdit = currentWorkingDir + File.separator + bomName + "-BOM.xlsx";
+            String editedBom = currentWorkingDir + File.separator + bomName + ".xlsx";
+//            String bomForEdit = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + "-BOM.xlsx";
+//            String editedBom = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + ".xlsx";
 
             FileInputStream fis = new FileInputStream(bomForEdit);
             //Workbook workbookIn = WorkbookFactory.create(fis);
@@ -108,7 +114,8 @@ public class BomEditor {
             workbookOut.close();
             workbookIn.close();
 
-            String notepadOutputFile = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + ".txt";
+            String notepadOutputFile = currentWorkingDir + "\\notepad" + File.separator + bomName + ".txt";
+            //String notepadOutputFile = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + ".txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(notepadOutputFile));
 
             for (Row row : sheetOut) {
@@ -122,13 +129,19 @@ public class BomEditor {
             //System.out.println("Text file saved for Notepad: " + notepadOutputFile);
             data = bomName+ " izveide izdevusies";
 
+        } catch (FileNotFoundException e) {
+            // Handle FileNotFoundException separately
+            e.printStackTrace();
+            data = bomName+ " fails nav atrasts";
+
+
         }catch(Exception e){
-            //data = bomName + " izveide neizdevas!!!";
+            data = bomName + " izveide neizdevas!!!";
             //System.out.println("Read failed");
             //data = e.printStackTrace();
-            e.printStackTrace();
-            String stackTraceString = getStackTraceAsString(e);
-            data = stackTraceString;
+//            e.printStackTrace();
+//            String stackTraceString = getStackTraceAsString(e);
+//            data = stackTraceString;
         }
         return data;
 
