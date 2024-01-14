@@ -8,7 +8,7 @@ public class bomEditorGui {
 
         JFrame frame = new JFrame("Bom Editor Beta version");
         // Setting the width and height of frame
-        frame.setSize(450, 300);
+        frame.setSize(550, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /* Creating panel. This is same as a div tag in HTML
@@ -48,11 +48,11 @@ public class bomEditorGui {
         panel.add(userText);
 
         JTextField userText2 = new JTextField(20);
-        userText2.setBounds(100,120,165,25);
+        userText2.setBounds(100,120,365,25);
         panel.add(userText2);
 
         JButton button = new JButton("Edit");
-        button.addActionListener(new ActionListener() {
+        ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String bomName = userText.getText();
@@ -60,8 +60,10 @@ public class bomEditorGui {
                 String message = bomEditor.ReadAllExcel(bomName);
                 userText2.setText(message);
             }
-        });
+        };
 
+        button.addActionListener(actionListener);
+        userText.addActionListener(actionListener);
         button.setBounds(280, 20, 80, 25);
         panel.add(button);
     }

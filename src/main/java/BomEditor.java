@@ -21,6 +21,8 @@ public class BomEditor {
         return dataString;
     }
 
+
+
     public String ReadAllExcel(String bomName){
         Scanner scanner = new Scanner(System.in);
 
@@ -47,6 +49,8 @@ public class BomEditor {
             Cell cellOut;
             int j = 0;
             boolean skipFirst = true;
+            boolean good = true;  //
+            boolean validOperations = false;
 
                 Iterator<Row> rowIterator = sheetIn.iterator();
                 while(rowIterator.hasNext()) {
@@ -63,6 +67,12 @@ public class BomEditor {
                     rowCount++;
                     j=0;
                     for(int i = 0;i < 8;i++) {
+                        Cell cellOperation = rowIn.getCell(2);
+                        operation = getType(cellOperation);
+                        if(operation.equalsIgnoreCase("10.0")
+                                || operation.equalsIgnoreCase("20.0")
+                        ){ //||operation.equalsIgnoreCase("ToOperation")
+                            validOperations = true;
 
                         Cell cellCheck = firstRow.getCell(i); //row.getCell(collumnNumber);
                         data = getType(cellCheck);
@@ -76,40 +86,58 @@ public class BomEditor {
 
                             if(data.equalsIgnoreCase("Designator")){
                                 data = getType(cellIn).replace(" ", "").replace("..", "-");
+                                if(!data.matches("[\\x2C\\x2E\\x2D\\x30-\\x39\\x41-\\x5A\\x61-\\x7A]+")){
+                                    good = false;
+                                }
                             }
                             else{
                                 data = getType(cellIn);
                             }
 
-                            Cell cellOperation = rowIn.getCell(2);
-                            operation = getType(cellOperation);
-                            if(operation.equalsIgnoreCase("10.0")
-                                    || operation.equalsIgnoreCase("20.0")
-                                    ||operation.equalsIgnoreCase("ToOperation")){
-
+//                            Cell cellOperation = rowIn.getCell(2);
+//                            operation = getType(cellOperation);
+//                            if(operation.equalsIgnoreCase("10.0")
+//                                    || operation.equalsIgnoreCase("20.0")
+//                                    ){ //||operation.equalsIgnoreCase("ToOperation")
+//                                validOperations = true;
                                 cellOut = rowOut.createCell(j);
                                 j++;
                                 cellOut.setCellValue(data);
-                            }
+                            } // last if
                         }
                     }
                 }
-            workbookOut.write(fileOutputStream);
+
+            if(good && validOperations) {
+                workbookOut.write(fileOutputStream);
+
+                //workbookOut.write(fileOutputStream);
+
+
+                String notepadOutputFile = currentWorkingDir + "\\notepad" + File.separator + bomName + ".txt";
+                BufferedWriter writer = new BufferedWriter(new FileWriter(notepadOutputFile));
+
+                for (Row row : sheetOut) {
+                    for (Cell cell : row) {
+                        writer.write(getType(cell) + "\t"); // Separate values with tabs
+                    }
+                    writer.newLine(); // Move to the next line for each row
+                }
+
+                writer.close();
+                data = bomName + " izveide izdevusies";
+            }else{
+                if(!good){
+                    data = "nezināmi simboli, izveide jāveic manuāli";
+                }
+                else if(!validOperations){
+                    data = "nav ne 10, ne 20 operācijas, izveide jāveic manuāli";
+                }
+
+            }
             workbookOut.close();
             workbookIn.close();
 
-            String notepadOutputFile = currentWorkingDir + "\\notepad" + File.separator + bomName + ".txt";
-            BufferedWriter writer = new BufferedWriter(new FileWriter(notepadOutputFile));
-
-            for (Row row : sheetOut) {
-                for (Cell cell : row) {
-                    writer.write(getType(cell) + "\t"); // Separate values with tabs
-                }
-                writer.newLine(); // Move to the next line for each row
-            }
-
-            writer.close();
-            data = bomName+ " izveide izdevusies";
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
