@@ -9,13 +9,6 @@ public class BomEditor {
     public String dataString = "";
 
 
-//    public static void main(String[] args) {
-//
-//        BomEditor bomEditor = new BomEditor();
-//        bomEditor.ReadAllExcel();
-//
-//    }
-
     public String getType(Cell cellCheck){
         if (cellCheck != null) {
             CellType cellCheckCellType = cellCheck.getCellType();
@@ -31,13 +24,6 @@ public class BomEditor {
     public String ReadAllExcel(String bomName){
         Scanner scanner = new Scanner(System.in);
 
-        //System.out.print("Enter BOM name: ");
-
-        //bomName = scanner.nextLine();
-
-        //scanner.close();
-
-
         String data = "";
         String operation = "";
         try {
@@ -49,11 +35,10 @@ public class BomEditor {
 
             String bomForEdit = currentWorkingDir + File.separator + bomName + "-BOM.xlsx";
             String editedBom = currentWorkingDir + File.separator + bomName + ".xlsx";
-//            String bomForEdit = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + "-BOM.xlsx";
-//            String editedBom = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + ".xlsx";
+
 
             FileInputStream fis = new FileInputStream(bomForEdit);
-            //Workbook workbookIn = WorkbookFactory.create(fis);
+
             Workbook workbookIn = new XSSFWorkbook(fis);
             Sheet sheetIn = workbookIn.getSheet("Sheet1");
             int rowCount = 0;
@@ -72,7 +57,7 @@ public class BomEditor {
                         skipFirst = false;
                         continue;
                     }
-                    //System.out.println(rowIn);
+
                     Row firstRow = sheetIn.getRow(0);
                     rowOut = sheetOut.createRow(rowCount);
                     rowCount++;
@@ -110,12 +95,10 @@ public class BomEditor {
                     }
                 }
             workbookOut.write(fileOutputStream);
-            System.out.println("file saved");
             workbookOut.close();
             workbookIn.close();
 
             String notepadOutputFile = currentWorkingDir + "\\notepad" + File.separator + bomName + ".txt";
-            //String notepadOutputFile = "C:\\Users\\Arta\\OneDrive\\Dators\\" + bomName + ".txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(notepadOutputFile));
 
             for (Row row : sheetOut) {
@@ -126,22 +109,15 @@ public class BomEditor {
             }
 
             writer.close();
-            //System.out.println("Text file saved for Notepad: " + notepadOutputFile);
             data = bomName+ " izveide izdevusies";
 
         } catch (FileNotFoundException e) {
-            // Handle FileNotFoundException separately
             e.printStackTrace();
             data = bomName+ " fails nav atrasts";
 
 
         }catch(Exception e){
             data = bomName + " izveide neizdevas!!!";
-            //System.out.println("Read failed");
-            //data = e.printStackTrace();
-//            e.printStackTrace();
-//            String stackTraceString = getStackTraceAsString(e);
-//            data = stackTraceString;
         }
         return data;
 

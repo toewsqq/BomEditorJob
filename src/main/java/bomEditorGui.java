@@ -57,7 +57,6 @@ public class bomEditorGui {
             public void actionPerformed(ActionEvent e) {
                 String bomName = userText.getText();
                 BomEditor bomEditor = new BomEditor();
-                //bomEditor.ReadAllExcel(bomName);
                 String message = bomEditor.ReadAllExcel(bomName);
                 userText2.setText(message);
             }
