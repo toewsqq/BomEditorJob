@@ -48,17 +48,26 @@ public class bomEditorGui {
         operations.setBounds(10,120,80,25);
         panel.add(operations);
 
+        JLabel smdOperations = new JLabel("SMD operations");
+
+        smdOperations.setBounds(10,160,110,25);
+        panel.add(smdOperations);
+
         JTextField userText = new JTextField(20);
-        userText.setBounds(100,20,165,25);
+        userText.setBounds(130,20,165,25);
         panel.add(userText);
 
         JTextField userText2 = new JTextField(20);
-        userText2.setBounds(100,80,365,25);
+        userText2.setBounds(130,80,365,25);
         panel.add(userText2);
 
         JTextField userText3 = new JTextField(20);
-        userText3.setBounds(100,120,365,25);
+        userText3.setBounds(130,120,365,25);
         panel.add(userText3);
+
+        JTextField userText4 = new JTextField(20);
+        userText4.setBounds(130,160,365,25);
+        panel.add(userText4);
 
         JButton button = new JButton("Edit");
         ActionListener actionListener = new ActionListener() {
@@ -69,14 +78,17 @@ public class bomEditorGui {
                 BomEditor bomResult = new BomResult().bomEditor(bomName);
                 String message = bomResult.getMessage();
                 String operations = bomResult.getOperations();
+                String smdOperations = bomResult.getSmdOperations();
+                //String smdOperations = "asdad";
                 userText2.setText(message);
                 userText3.setText(operations);
+                userText4.setText(smdOperations);
             }
         };
 
         button.addActionListener(actionListener);
         userText.addActionListener(actionListener);
-        button.setBounds(280, 20, 80, 25);
+        button.setBounds(300, 20, 80, 25);
         panel.add(button);
     }
 

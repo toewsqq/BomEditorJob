@@ -13,11 +13,12 @@ public class BomResult {
 
     public BomEditor bomEditor(String bomName) {
         BomEditor bomEditor = new BomEditor(bomName);
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
 
         String data = "";
         String operation = "";
         String operationList = " ";
+        String smdOperations = " ";
 
         try {
 
@@ -42,7 +43,7 @@ public class BomResult {
             boolean skipFirst = true;
             boolean good = true;  //
             boolean validOperations = false;
-            boolean containOperation = false;
+           // boolean containOperation = false;
 
             Iterator<Row> rowIterator = sheetIn.iterator();
             while (rowIterator.hasNext()) {
@@ -61,13 +62,21 @@ public class BomResult {
                 for (int i = 0; i < 8; i++) {
                     Cell cellOperation = rowIn.getCell(2);
                     operation = bomEditor.getType(cellOperation);
+
                     if(!operationList.contains(operation)){
                         operationList = operationList + " [" +  operation + "]  ";
                     }
                     if (operation.equalsIgnoreCase("10.0")
                             || operation.equalsIgnoreCase("20.0")
+                            || operation.equalsIgnoreCase("11.0")
+                            || operation.equalsIgnoreCase("21.0")
                     ) { //||operation.equalsIgnoreCase("ToOperation")
                         validOperations = true;
+                        if(!smdOperations.contains(operation)){
+                            smdOperations = smdOperations + " [" +  operation + "]  ";
+                        }
+
+
 
                         Cell cellCheck = firstRow.getCell(i); //row.getCell(collumnNumber);
                         data = bomEditor.getType(cellCheck);
@@ -98,6 +107,7 @@ public class BomResult {
                             j++;
                             cellOut.setCellValue(data);
                         } // last if
+
                     }
                 }
             }
@@ -144,15 +154,14 @@ public class BomResult {
 
         int endIndex = operationList.length() - 2;
         String operationListTrimmed  = operationList.substring(0, endIndex);
-        System.out.println(operationList);
-        System.out.println(endIndex);
-        System.out.println(operationListTrimmed);
-        System.out.println(operationListTrimmed);
-
         operationList = operationListTrimmed;
-        System.out.println(operationList);
+//        endIndex = smdOperations.length() - 2;
+//        operationListTrimmed  = smdOperations.substring(0, endIndex);
+//        smdOperations = operationListTrimmed;
+        System.out.println(smdOperations);
 
-        return new BomEditor(data, operationList);
+
+        return new BomEditor(data, operationList, smdOperations);
 
     }
 

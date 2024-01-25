@@ -9,11 +9,14 @@ public class BomEditor {
     public String dataString = "";
     private String message;
     private String operations;
+    private String smdOperations;
     private String bomName;
 
-    public BomEditor(String message, String operations) {
+    public BomEditor(String message, String operations, String smdOperations) {
         this.message = message;
         this.operations = operations;
+        this.smdOperations = smdOperations;
+
     }
 
 
@@ -31,6 +34,9 @@ public class BomEditor {
 
     public String getOperations() {
         return operations;
+    }
+    public String getSmdOperations() {
+        return smdOperations;
     }
 
     public String getType(Cell cellCheck){
