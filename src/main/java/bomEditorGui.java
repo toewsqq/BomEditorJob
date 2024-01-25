@@ -40,25 +40,37 @@ public class bomEditorGui {
 
         JLabel status = new JLabel("Status");
 
-        status.setBounds(10,120,80,25);
+        status.setBounds(10,80,80,25);
         panel.add(status);
+
+        JLabel operations = new JLabel("Operation list");
+
+        operations.setBounds(10,120,80,25);
+        panel.add(operations);
 
         JTextField userText = new JTextField(20);
         userText.setBounds(100,20,165,25);
         panel.add(userText);
 
         JTextField userText2 = new JTextField(20);
-        userText2.setBounds(100,120,365,25);
+        userText2.setBounds(100,80,365,25);
         panel.add(userText2);
+
+        JTextField userText3 = new JTextField(20);
+        userText3.setBounds(100,120,365,25);
+        panel.add(userText3);
 
         JButton button = new JButton("Edit");
         ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String bomName = userText.getText();
-                BomEditor bomEditor = new BomEditor();
-                String message = bomEditor.ReadAllExcel(bomName);
+                //BomEditor bomEditor = new BomEditor(bomName);
+                BomEditor bomResult = new BomResult().bomEditor(bomName);
+                String message = bomResult.getMessage();
+                String operations = bomResult.getOperations();
                 userText2.setText(message);
+                userText3.setText(operations);
             }
         };
 
