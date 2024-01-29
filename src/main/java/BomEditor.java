@@ -19,7 +19,10 @@ public class BomEditor {
 
     }
 
-
+    public BomEditor(String dataString, String message) {
+        this.dataString = dataString;
+        this.message = message;
+    }
 
     public BomEditor(String bomName) {
         this.bomName = bomName;

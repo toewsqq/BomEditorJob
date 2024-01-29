@@ -19,6 +19,9 @@ public class BomResult {
         String operation = "";
         String operationList = " ";
         String smdOperations = " ";
+        String error = "";
+        int errorRowNum;
+
 
         try {
 
@@ -89,20 +92,20 @@ public class BomResult {
                             Cell cellIn = rowIn.getCell(i); //row.getCell(collumnNumber);
 
                             if (data.equalsIgnoreCase("Designator")) {
-                                data = bomEditor.getType(cellIn).replace(" ", "").replace("..", "-");
+                                data = bomEditor.getType(cellIn).trim().replace(" ", "")
+                                        .replace("...", "-")
+                                        .replace("..", "-")
+                                        .replace("\"", "");
+
                                 if (!data.matches("[\\x22-\\x2C\\x2E\\x2D\\x30-\\x39\\x41-\\x5A\\x61-\\x7A]+")) {
                                     good = false;
+                                    errorRowNum = rowCount + 1;
+                                    error = "Kluda rinda: " + errorRowNum + " ar vertibu: \"" + bomEditor.getType(cellIn) + "\"";
                                 }
                             } else {
                                 data = bomEditor.getType(cellIn);
                             }
 
-//                            Cell cellOperation = rowIn.getCell(2);
-//                            operation = getType(cellOperation);
-//                            if(operation.equalsIgnoreCase("10.0")
-//                                    || operation.equalsIgnoreCase("20.0")
-//                                    ){ //||operation.equalsIgnoreCase("ToOperation")
-//                                validOperations = true;
                             cellOut = rowOut.createCell(j);
                             j++;
                             cellOut.setCellValue(data);
@@ -115,7 +118,7 @@ public class BomResult {
             if (good && validOperations) {
                 workbookOut.write(fileOutputStream);
 
-                //workbookOut.write(fileOutputStream);
+
 
 
                 String notepadOutputFile = currentWorkingDir + "\\notepad" + File.separator + bomName + ".txt";
@@ -132,7 +135,8 @@ public class BomResult {
                 data = bomName + " izveide izdevusies";
             } else {
                 if (!good) {
-                    data = "nezināmi simboli, izveide jāveic manuāli";
+                    data = error;
+                    //data = "nezināmi simboli, izveide jāveic manuāli";
                 } else {
                     data = "nav ne 10, ne 20 operācijas, izveide jāveic manuāli";
                 }
@@ -145,25 +149,25 @@ public class BomResult {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             data = bomName + " fails nav atrasts";
+            operationList = "---------";
+            smdOperations = "----------";
 
 
         } catch (Exception e) {
             data = bomName + " izveide neizdevas!!!";
+            operationList = "---------";
+            smdOperations = "---------";
         }
 
 
-        int endIndex = operationList.length() - 2;
-        String operationListTrimmed  = operationList.substring(0, endIndex);
-        operationList = operationListTrimmed;
-//        endIndex = smdOperations.length() - 2;
-//        operationListTrimmed  = smdOperations.substring(0, endIndex);
-//        smdOperations = operationListTrimmed;
-        System.out.println(smdOperations);
 
+            int endIndex = operationList.length() - 2;
+            String operationListTrimmed  = operationList.substring(0, endIndex);
+            operationList = operationListTrimmed;
 
-        return new BomEditor(data, operationList, smdOperations);
+            return new BomEditor(data, operationList, smdOperations);
+        }
 
-    }
 
 
     public static String getStackTraceAsString(Exception e) {
